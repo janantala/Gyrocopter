@@ -1,0 +1,21 @@
+{
+  "name": "gyrocopter",
+  "version": "0.1.0",
+  "description": "Gyroscope simulator Extension for Chrome",
+  "author": "Jan Antala",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-karma": "*",
+    "grunt-contrib-jshint": "~0.2.0"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/janantala/Gyrocopter.git"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

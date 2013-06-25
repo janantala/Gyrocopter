@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+
+  "name": "Gyrocopter",
+  "description": "This extension simulates a 3-axes gyroscope.",
+  "version": "0.1.0",
+
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "tabs",
+    "<all_urls>"
+  ]
+}
