@@ -5,10 +5,17 @@
   "description": "This extension simulates a 3-axes gyroscope.",
   "version": "0.1.0",
 
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+
   "browser_action": {
-    "default_icon": "images/icon.png",
+    "default_icon": "images/icon128.png",
     "default_popup": "index.html"
   },
+
   "permissions": [
     "tabs",
     "storage",
