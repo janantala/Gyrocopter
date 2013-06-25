@@ -19,7 +19,7 @@ module.exports = function (grunt) {
             }
         },
         jshint:{
-            files:['src/**/*.js', 'test/**/*.js', 'demo/js/controllers/mainCtrl.js'],
+            files:['app/js/**/*.js', 'test/**/*.js'],
             options: {
                 curly:true,
                 eqeqeq:true,
