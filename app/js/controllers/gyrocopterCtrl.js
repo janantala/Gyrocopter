@@ -7,17 +7,23 @@
  */
 gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
-  $scope.alpha = 0;
-  $scope.beta = 0;
-  $scope.gamma = 0;
-
   $scope.rotate = function(alpha, beta, gamma){
     $scope.css = {};
     $scope.css['transform'] = 'rotateX(' + beta + 'deg)' + 'rotateY(' + gamma + 'deg)' + 'rotateZ(' + alpha + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + beta + 'deg)' + 'rotateY(' + gamma + 'deg)' + 'rotateZ(' + alpha + 'deg)';
   };
 
-  $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
+  chrome.storage.local.get(['alpha', 'beta', 'gamma'], function(storage){
+    console.log(storage);
+    $scope.alpha = Number(storage.alpha) || 0;
+    $scope.beta = Number(storage.beta) || 0;
+    $scope.gamma = Number(storage.gamma) || 0;
+
+    $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.$apply();
+
+    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+  });
 
   /**
    * Dispatches a DeviceOrientation Event
@@ -30,7 +36,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   $scope.orientateDevice = function(alpha, beta, gamma, absolute){
     console.log(alpha, beta, gamma);
 
-    absolute = absolute || false;
+    absolute = true;
     // var event = document.createEvent("DeviceOrientationEvent");
     // event.initDeviceOrientationEvent("deviceorientation", false, false, alpha, beta, gamma, absolute);
     // window.dispatchEvent(event);
@@ -40,14 +46,18 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     js += 'event.initDeviceOrientationEvent("deviceorientation", false, false, ' + alpha + ', ' + beta + ', ' + gamma + ', ' + absolute + ');';
     js += 'window.dispatchEvent(event);';
 
-    // var hello = '"ahoj"';
-    // js += 'alert(' + hello + ');';
-
     chrome.tabs.executeScript({
       code: js
     });
 
     $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
+  };
+
+
+  $scope.saveRotation = function(){
+    chrome.storage.local.set({'alpha': $scope.alpha, "beta": $scope.beta, "gamma": $scope.gamma}, function() {
+      console.log('saved');
+    });
   };
 });
 
