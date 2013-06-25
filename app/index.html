@@ -6,13 +6,16 @@
       body {
         min-width: 357px;
         overflow-x: hidden;
+        background-image: -webkit-linear-gradient(top, white 0%, rgb(220, 224, 233) 100%);
+        background-image: linear-gradient(top, white 0%, rgb(220, 224, 233) 100%);
+        font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
       }
 
-      .phone {
+      /*.phone {
         width: 320px;
         height: 320px;
         margin: 10px auto;
-      }
+      }*/
 
       img.center {
         display: block;
@@ -24,13 +27,80 @@
         text-align: center;
         margin: 10px auto;
       }
+
+      #phone_container {
+        position: relative;
+        margin: 10px auto;
+        width: 150px;
+        height: 320px;
+        z-index: 1;
+      }
+
+      #phone_container {
+        -webkit-perspective: 1000;
+        perspective: 1000;
+      }
+
+      #phone {
+        width: 100%;
+        height: 100%;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+      }
+
+      #phone img {
+        width: auto;
+        height: 100%;
+      }
+
+      .face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+      .face.back {
+        display: block;
+        -webkit-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        color: black;
+        text-align: center;
+        background-color: rgb(190,190,190);
+
+        border-top: 35px solid rgb(227,227,227);
+        border-bottom: 35px solid rgb(227,227,227);
+        border-left: 1px solid rgb(227,227,227);
+        border-right: 1px solid rgb(227,227,227);
+        border-radius: 20px;
+      }
+
     </style>
   </head>
   <body ng-controller="gyrocopterCtrl">
 
-    <section class="phone" ng-style="css">
-      <img src="/images/iphone5.png" alt="gyrocopter" class="center">
-    </section>
+    <div id="phone_container">
+      <section id="phone" class="shadow" ng-style="css">
+        <div class="front face">
+          <img src="/images/iphone.png"/>
+        </div>
+        <div class="back face center">
+          <h4>Gyrocopter</h4>
+          <small>
+            <p>The MIT License</p>
+            <p>Copyright (c) 2013</p>
+          </small>
+          <p>Jan Antala</p>
+          <p>janantala.com</p>
+          <p><small>
+            iPhone: apple.com
+          </small></p>
+        </div>
+      </section>
+    </div>
 
     <section class="options">
       <p>
