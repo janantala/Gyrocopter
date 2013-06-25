@@ -11,12 +11,6 @@
         font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
       }
 
-      /*.phone {
-        width: 320px;
-        height: 320px;
-        margin: 10px auto;
-      }*/
-
       img.center {
         display: block;
         margin: 0 auto;
@@ -60,6 +54,7 @@
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
       }
+
       .face.back {
         display: block;
         -webkit-transform: rotateY(180deg);
@@ -77,6 +72,14 @@
         border-right: 1px solid rgb(227,227,227);
         border-radius: 20px;
       }
+
+.button { width: auto; background: #2ba6cb; border: 1px solid #1e728c; -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; color: white; cursor: pointer; display: inline-block; font-family: inherit; font-size: 14px; font-weight: bold; line-height: 1; margin: 0; padding: 10px 20px 11px; position: relative; text-align: center; text-decoration: none; -webkit-transition: background-color 0.15s ease-in-out; -moz-transition: background-color 0.15s ease-in-out; -o-transition: background-color 0.15s ease-in-out; transition: background-color 0.15s ease-in-out; }
+.button:hover, .button:focus { color: white; background-color: #2284a1; }
+.button:active { -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; }
+.button.medium { font-size: 14px; }
+.button.expand { width: 100%; text-align: center; }
+.button.primary { background-color: #2ba6cb; border: 1px solid #1e728c; }
+.button.primary:hover, .button.primary:focus { background-color: #2284a1; }
 
     </style>
   </head>
@@ -103,24 +106,20 @@
     </div>
 
     <section class="options">
-      <p>
         alpha: {{alpha}}
-      </p>
       <p>
-        <input type="range" min="0" max="359.9" step="0.5" ng-model="alpha" ng-change="orientateDevice(alpha,beta,gamma)">
+        <input type="range" min="0" max="359.9" step="0.1" ng-model="alpha" ng-change="orientateDevice(alpha,beta,gamma)" ng-click="saveRotation()">
       </p>
-      <p>
         beta: {{beta}}
-      </p>
       <p>
-        <input type="range" min="-180" max="179.9" step="0.5" ng-model="beta" ng-change="orientateDevice(alpha,beta,gamma)">
+        <input type="range" min="-180" max="179.9" step="0.1" ng-model="beta" ng-change="orientateDevice(alpha,beta,gamma)" ng-click="saveRotation()">
       </p>
-      <p>
         gamma: {{gamma}}
-      </p>
       <p>
-        <input type="range" min="-90" max="89.9" step="0.5" ng-model="gamma" ng-change="orientateDevice(alpha,beta,gamma)">
+        <input type="range" min="-90" max="89.9" step="0.1" ng-model="gamma" ng-change="orientateDevice(alpha,beta,gamma)" ng-click="saveRotation()">
       </p>
+
+      <button class="button primary medium" ng-click="reset()">Reset</button>
     </section>
 
     <script src="/components/angular/angular.js"></script>
