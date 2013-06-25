@@ -1,0 +1,22 @@
+{
+  "name": "gyrocopter",
+  "version": "0.1.0",
+  "description": "This module allows you to scroll an AngularJS app using gyroscope.",
+  "author": "Jan Antala",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "test*",
+    "demo*",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "~1.x"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.x"
+  }
+}
