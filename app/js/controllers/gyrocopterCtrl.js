@@ -59,6 +59,14 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
       console.log('saved');
     });
   };
+
+  $scope.reset = function(){
+    $scope.alpha = 0;
+    $scope.beta = 0;
+    $scope.gamma = 0;
+    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.saveRotation();
+  };
 });
 
 })();
