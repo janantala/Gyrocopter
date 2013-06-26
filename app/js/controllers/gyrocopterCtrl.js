@@ -9,14 +9,19 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
   $scope.rotate = function(alpha, beta, gamma){
     $scope.css = {};
-    $scope.css['transform'] = 'rotateX(' + beta + 'deg)' + 'rotateY(' + gamma + 'deg)' + 'rotateZ(' + alpha + 'deg)';
-    $scope.css['-webkit-transform'] = 'rotateX(' + beta + 'deg)' + 'rotateY(' + gamma + 'deg)' + 'rotateZ(' + alpha + 'deg)';
+
+    var a = 360 - alpha;
+    var b = - beta + 90;
+    var c = gamma;
+
+    $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+    $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
   };
 
   chrome.storage.local.get(['alpha', 'beta', 'gamma'], function(storage){
     console.log(storage);
     $scope.alpha = Number(storage.alpha) || 0;
-    $scope.beta = Number(storage.beta) || 0;
+    $scope.beta = Number(storage.beta) || 90;
     $scope.gamma = Number(storage.gamma) || 0;
 
     $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
@@ -36,6 +41,9 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   $scope.orientateDevice = function(alpha, beta, gamma, absolute){
     console.log(alpha, beta, gamma);
 
+    var a = alpha;
+    var b = beta;
+    var c = $scope.computeGamma(gamma);
     absolute = true;
     // var event = document.createEvent("DeviceOrientationEvent");
     // event.initDeviceOrientationEvent("deviceorientation", false, false, alpha, beta, gamma, absolute);
@@ -43,7 +51,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
     var js = '';
     js += 'var event = document.createEvent("DeviceOrientationEvent");';
-    js += 'event.initDeviceOrientationEvent("deviceorientation", false, false, ' + alpha + ', ' + beta + ', ' + gamma + ', ' + absolute + ');';
+    js += 'event.initDeviceOrientationEvent("deviceorientation", false, false, ' + a + ', ' + b + ', ' + c + ', ' + absolute + ');';
     js += 'window.dispatchEvent(event);';
 
     chrome.tabs.executeScript({
@@ -62,8 +70,61 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
   $scope.reset = function(){
     $scope.alpha = 0;
-    $scope.beta = 0;
+    $scope.beta = 90;
     $scope.gamma = 0;
+    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.saveRotation();
+  };
+
+  $scope.stepper = 0.5;
+
+  $scope.compute = function(next, direction, min, max){
+    if (direction === 'left') {
+      next -= $scope.stepper;
+    }
+    else {
+      next += $scope.stepper;
+    }
+
+    if (next < min) {
+      next = max - $scope.stepper;
+    }
+    else if (next >= max) {
+      next = min;
+    }
+
+    return next;
+  };
+
+  $scope.computeGamma = function(gamma){
+    if (gamma > 90) {
+      return Number(gamma) - 180;
+    }
+    else if (gamma < -90) {
+      return Number(gamma) + 180;
+    }
+    else {
+      return Number(gamma);
+    }
+  }
+
+  $scope.stepAlpha = function(direction){
+    var next =  $scope.compute(Number($scope.alpha), direction, 0, 360);
+    $scope.alpha = next;
+    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.saveRotation();
+  };
+
+  $scope.stepBeta = function(direction){
+    var next =  $scope.compute(Number($scope.beta), direction, -180, 180);
+    $scope.beta = next;
+    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.saveRotation();
+  };
+
+  $scope.stepGamma = function(direction){
+    var next =  $scope.compute(Number($scope.gamma), direction, -180, 180);
+    $scope.gamma = next;
     $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
     $scope.saveRotation();
   };
