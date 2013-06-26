@@ -106,7 +106,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     else {
       return Number(gamma);
     }
-  }
+  };
 
   $scope.stepAlpha = function(direction){
     var next =  $scope.compute(Number($scope.alpha), direction, 0, 360);
