@@ -20,11 +20,15 @@ Simulator allows you to simulate rotation of a mobile device and also sends devi
 
 ## Demo
 
-https://github.com/angular-adaptive/adaptive-scroll
-
-
 <p align="center">
-  <a href="https://chrome.google.com/webstore/detail/gyrocopter/oooalfgemajfclliinfcdkifafmcfjop">
-    <img src="http://images1.wikia.nocookie.net/__cb20061125034237/wowwiki/images/9/9c/Dwarvengyrocopter.gif" alt="Gyrocopter"/>
-  </a>
+    Check out <a href="https://github.com/angular-adaptive/adaptive-scroll">Angular Adaptive Scroll project</a> 
 </p>
+<p align="center">
+    <img src="https://raw.github.com/angular-adaptive/adaptive-scroll/master/images/gyrocopter.gif" alt="demo" />
+</p>
+
+## License
+
+The MIT License
+
+Copyright (c) 2013 Jan Antala, https://github.com/janantala
