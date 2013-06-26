@@ -14,7 +14,7 @@ Gyroscope Simulator - Extension for Chrome Browser
 </p>
 
 
-Do you develop for mobile? Than you need a proper gyroscope simulator.
+Do you develop for mobile? Then you need a proper gyroscope simulator.
 
 This simulator allows you to dynamically change rotation of a mobile device and also sends deviceorientation events to your web app.
 
