@@ -118,13 +118,16 @@
 
         width: 124px;
         height: 217px;
-        padding-left: 0px;
 
         background: rgb(240,130,120);
         color: rgb(255,255,255);
 
-        list-style: none;
         text-align: left;
+      }
+
+      .options-ul {
+        padding: 0;
+        list-style: none;
       }
 
       .options-li {
@@ -135,6 +138,9 @@
         background: grey;
         font-size: 12px;
         line-height: 20px;
+        padding: 0;
+        padding-left: 10px;
+        margin: 0;
       }
 
       .options-browser {
@@ -159,15 +165,20 @@
       <section id="phone" class="shadow" ng-style="css">
         <div class="front face">
           <img src="/images/iphone.png"/>
-          <ul class="options">
-            <li class="options-li options-platform">W3C</li>
-            <li class="options-li options-browser" ng-class="{selected: browser=='w3c-specification'}" ng-click="browser='w3c-specification'">Specification</li>
-            <li class="options-li options-platform">iOS</li>
-            <li class="options-li options-browser" ng-class="{selected: browser=='ios-safari'}" ng-click="browser='ios-safari'">Safari</li>
-            <li class="options-li options-platform">Android</li>
-            <li class="options-li options-browser" ng-class="{selected: browser=='android-chrome'}" ng-click="browser='android-chrome'">Chrome</li>
-            <li class="options-li options-browser" ng-class="{selected: browser=='android-stock'}" ng-click="browser='android-stock'">Stock Browser</li>
-            <li class="options-li options-browser" ng-class="{selected: browser=='android-firefox'}" ng-click="browser='android-firefox'">Firefox</li>
+          <ul class="options options-ul">
+            <li ng-repeat="platform in platforms">
+              <h4 class="options-platform">{{platform.name}}</h4>
+              <ul class="options-ul">
+                <li
+                  class="options-li options-browser"
+                  ng-class="{selected: selected.id==browser.id}"
+                  ng-repeat="browser in platform.browsers"
+                  ng-click="selectBrowser(browser)"
+                >
+                  {{browser.name}}
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
         <div class="back face center">

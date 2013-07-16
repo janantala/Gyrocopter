@@ -7,7 +7,49 @@
  */
 gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
-  $scope.browser = 'w3c-specification';
+  $scope.platforms = [
+  {
+    'name': 'W3C',
+    'browsers': [
+      {
+        'name': 'Specification',
+        'id': 'w3c-specification'
+      }
+    ]
+  },
+  {
+    'name': 'iOS',
+    'browsers': [
+      {
+        'name': 'Safari',
+        'id': 'ios-safari'
+      }
+    ]
+  },
+  {
+    'name': 'Android',
+    'browsers': [
+      {
+        'name': 'Chrome',
+        'id': 'android-chrome'
+      },
+      {
+        'name': 'Stock Browser',
+        'id': 'android-stock'
+      },
+      {
+        'name': 'Firefox',
+        'id': 'android-firefox'
+      }
+    ]
+  }
+
+  ];
+
+  $scope.selected = $scope.platforms[0].browsers[0];
+  $scope.selectBrowser = function(browser){
+    $scope.selected = browser;
+  }
 
   $scope.rotate = function(alpha, beta, gamma){
     $scope.css = {};
