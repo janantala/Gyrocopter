@@ -181,7 +181,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
     $scope.css = {};
 
-    var a = (360 - alpha) * alphaMult;
+    var a = alpha * alphaMult;
     var b = (- beta + 90) * betaMult;
     var c = (gamma) * gammaMult;
 
