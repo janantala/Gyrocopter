@@ -196,7 +196,7 @@
       </section>
     </div>
 
-    <section class="selectors">
+    <!-- <section class="selectors">
       <div>
           alpha: {{alpha}}
         <p>
@@ -214,6 +214,31 @@
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepGamma('left')"></i>
           <input type="range" min="-180" max="179.0" step="0.5" ng-model="gamma" ng-change="orientateDevice(alpha,beta,gamma)" ng-click="saveRotation()" style="width: 280px;">
+          <i class="chevron icon-chevron-right" ng-click="stepGamma('right')"></i>
+        </p>
+
+        <button class="button primary medium" ng-click="reset()">Reset</button>
+      </div>
+    </section> -->
+
+    <section class="selectors">
+      <div>
+          alpha: {{getAlphaRotation(alpha)}}
+        <p>
+          <i class="chevron icon-chevron-left" ng-click="stepAlpha('left')"></i>
+          <input type="range" min="0" max="359.9" step="0.5" ng-model="alpha" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
+          <i class="chevron icon-chevron-right" ng-click="stepAlpha('right')"></i>
+        </p>
+          beta: {{getBetaRotation(beta)}}
+        <p>
+          <i class="chevron icon-chevron-left" ng-click="stepBeta('left')"></i>
+          <input type="range" min="0" max="359.9" step="0.5" ng-model="beta" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
+          <i class="chevron icon-chevron-right" ng-click="stepBeta('right')"></i>
+        </p>
+          gamma: {{getGammaRotation(gamma)}}
+        <p>
+          <i class="chevron icon-chevron-left" ng-click="stepGamma('left')"></i>
+          <input type="range" min="0" max="359.9" step="0.5" ng-model="gamma" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepGamma('right')"></i>
         </p>
 

@@ -137,13 +137,44 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   $scope.selected = $scope.platforms[0].browsers[0];
   $scope.selectBrowser = function(browser){
     $scope.selected = browser;
+    $scope.setDefaultRotation();
+  };
+
+  $scope.setDefaultRotation = function(){
+    $scope.alpha = 0;
+    $scope.beta = 90;
+    $scope.gamma = 0;
+
+    $scope.rotateDevice();
+  }
+
+  /**
+   * Compute methods
+   */
+
+  $scope.getAlphaRotation = function(){
+    var alpha = $scope.alpha;
+    return alpha;
+  };
+
+  $scope.getBetaRotation = function(){
+    var beta = $scope.beta;
+    return beta;
+  };
+
+  $scope.getGammaRotation = function(){
+    var gamma = $scope.gamma;
+    return gamma;
   };
 
   /**
    * Rotation methods
    */
 
-  $scope.rotate = function(alpha, beta, gamma){
+  $scope.rotateDevice = function(){
+    var alpha = $scope.alpha;
+    var beta = $scope.beta;
+    var gamma = $scope.gamma;
     $scope.css = {};
 
     var a = 360 - alpha;
@@ -152,7 +183,18 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
-  };
+  }
+
+  // $scope.rotate = function(alpha, beta, gamma){
+  //   $scope.css = {};
+
+  //   var a = 360 - alpha;
+  //   var b = - beta + 90;
+  //   var c = gamma;
+
+  //   $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+  //   $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+  // };
 
   chrome.storage.local.get(['alpha', 'beta', 'gamma'], function(storage){
     console.log(storage);
@@ -160,10 +202,10 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     $scope.beta = Number(storage.beta) || 90;
     $scope.gamma = Number(storage.gamma) || 0;
 
-    $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.rotateDevice();
     $scope.$apply();
 
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    // $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
   });
 
   /**
