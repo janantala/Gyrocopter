@@ -158,7 +158,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   };
 
   $scope.getBetaRotation = function(){
-    var beta = $scope.beta;
+    var beta = $scope.beta - 180;
     return beta;
   };
 
@@ -182,7 +182,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     $scope.css = {};
 
     var a = alpha * alphaMult;
-    var b = (- beta + 90) * betaMult;
+    var b = (- beta + 90 - 180) * betaMult;
     var c = (gamma) * gammaMult;
 
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
