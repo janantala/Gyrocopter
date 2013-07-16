@@ -159,6 +159,17 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
   $scope.getBetaRotation = function(){
     var beta = $scope.beta - 180;
+    var range = Math.abs($scope.selected.rotation.beta.max - $scope.selected.rotation.beta.min);
+
+    if (range === 180) {
+      if (beta > 90) {
+        return 90 - beta + 90;
+      }
+      if (beta < -90) {
+        return -1 * (90 + beta + 90);
+      }
+    }
+
     return beta;
   };
 
