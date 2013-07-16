@@ -7,6 +7,8 @@
  */
 gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
+  $scope.browser = 'w3c-specification';
+
   $scope.rotate = function(alpha, beta, gamma){
     $scope.css = {};
 

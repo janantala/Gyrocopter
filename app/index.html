@@ -161,13 +161,13 @@
           <img src="/images/iphone.png"/>
           <ul class="options">
             <li class="options-li options-platform">W3C</li>
-            <li class="options-li options-browser selected">Specification</li>
+            <li class="options-li options-browser" ng-class="{selected: browser=='w3c-specification'}" ng-click="browser='w3c-specification'">Specification</li>
             <li class="options-li options-platform">iOS</li>
-            <li class="options-li options-browser">Safari</li>
+            <li class="options-li options-browser" ng-class="{selected: browser=='ios-safari'}" ng-click="browser='ios-safari'">Safari</li>
             <li class="options-li options-platform">Android</li>
-            <li class="options-li options-browser">Chrome</li>
-            <li class="options-li options-browser">Stock Browser</li>
-            <li class="options-li options-browser">Firefox</li>
+            <li class="options-li options-browser" ng-class="{selected: browser=='android-chrome'}" ng-click="browser='android-chrome'">Chrome</li>
+            <li class="options-li options-browser" ng-class="{selected: browser=='android-stock'}" ng-click="browser='android-stock'">Stock Browser</li>
+            <li class="options-li options-browser" ng-class="{selected: browser=='android-firefox'}" ng-click="browser='android-firefox'">Firefox</li>
           </ul>
         </div>
         <div class="back face center">
