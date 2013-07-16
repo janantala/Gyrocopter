@@ -163,7 +163,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
     if (range === 180) {
       if (beta > 90) {
-        return 90 - beta + 90;
+        return (90 - beta + 90);
       }
       if (beta < -90) {
         return -1 * (90 + beta + 90);
@@ -193,7 +193,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     $scope.css = {};
 
     var a = alpha * alphaMult;
-    var b = (- beta + 90 - 180) * betaMult;
+    var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
     var c = (gamma) * gammaMult;
 
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
