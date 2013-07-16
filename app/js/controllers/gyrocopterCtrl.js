@@ -13,7 +13,24 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     'browsers': [
       {
         'name': 'Specification',
-        'id': 'w3c-specification'
+        'id': 'w3c-specification',
+        'rotation': {
+          'alpha': {
+            'min': 0,
+            'max': 360,
+            'zero': 0
+          },
+          'beta': {
+            'min': -180,
+            'max': 180,
+            'zero': 0
+          },
+          'gamma': {
+            'min': -90,
+            'max': 90,
+            'zero': 0
+          }
+        }
       }
     ]
   },
@@ -22,7 +39,24 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     'browsers': [
       {
         'name': 'Safari',
-        'id': 'ios-safari'
+        'id': 'ios-safari',
+        'rotation': {
+          'alpha': {
+            'min': 0,
+            'max': 360,
+            'zero': 90
+          },
+          'beta': {
+            'min': -90,
+            'max': 90,
+            'zero': 0
+          },
+          'gamma': {
+            'min': 180,
+            'max': -180,
+            'zero': 0
+          }
+        }
       }
     ]
   },
@@ -31,15 +65,69 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     'browsers': [
       {
         'name': 'Chrome',
-        'id': 'android-chrome'
+        'id': 'android-chrome',
+        'rotation': {
+          'alpha': {
+            'min': 0,
+            'max': 360,
+            'zero': 0
+          },
+          'beta': {
+            'min': -90,
+            'max': 90,
+            'zero': 0
+          },
+          'gamma': {
+            'min': 270,
+            'max': -90,
+            'zero': 0
+          }
+        }
       },
       {
         'name': 'Stock Browser',
-        'id': 'android-stock'
+        'id': 'android-stock',
+        'rotation': {
+          'alpha': {
+            'min': 0,
+            'max': 360,
+            'zero': 270
+          },
+          'beta': {
+            'min': -90,
+            'max': 90,
+            'zero': 0
+          },
+          'gamma': {
+            'min': 270,
+            'max': -90,
+            'zero': 0
+          }
+        }
       },
       {
         'name': 'Firefox',
-        'id': 'android-firefox'
+        'id': 'android-firefox',
+        'rotation': {
+          'alpha': {
+            'min': 0,
+            'max': 360,
+            'zero': 0,
+            'reverse': true
+          },
+          'beta': {
+            'min': 180,
+            'max': -180,
+            'zero': 0,
+            'reverse': true
+          },
+          'gamma': {
+            'min': -90,
+            'max': 90,
+            'zero': 0,
+            'reverse': true
+          }
+        }
       }
     ]
   }
@@ -49,7 +137,11 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   $scope.selected = $scope.platforms[0].browsers[0];
   $scope.selectBrowser = function(browser){
     $scope.selected = browser;
-  }
+  };
+
+  /**
+   * Rotation methods
+   */
 
   $scope.rotate = function(alpha, beta, gamma){
     $scope.css = {};
