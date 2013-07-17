@@ -138,6 +138,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   $scope.selectBrowser = function(browser){
     $scope.selected = browser;
     $scope.setDefaultRotation();
+    $scope.saveData();
   };
 
   $scope.setDefaultRotation = function(){
@@ -215,12 +216,12 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     var a = - alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
     var c = gammaMult > 0 ? (- gamma - 180) * gammaMult : (- gamma - 180) * gammaMult - 180;
-    c=0;
 
     a = prettyRotate(a);
     b = prettyRotate(b);
     c = prettyRotate(c);
 console.log(a, b, c);
+console.log($scope.selected);
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
   }
@@ -236,11 +237,21 @@ console.log(a, b, c);
   //   $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
   // };
 
-  chrome.storage.local.get(['alpha', 'beta', 'gamma'], function(storage){
+  $scope.saveData = function(){
+    chrome.storage.local.set({'alpha': $scope.alpha, 'beta': $scope.beta, 'gamma': $scope.gamma, 'browser': JSON.stringify($scope.selected)}, function() {
+      console.log('saved');
+    });
+  };
+
+  chrome.storage.local.get(['alpha', 'beta', 'gamma', 'browser'], function(storage){
     console.log(storage);
     $scope.alpha = Number(storage.alpha) || 0;
     $scope.beta = Number(storage.beta) || 90;
     $scope.gamma = Number(storage.gamma) || 0;
+    $scope.selected = JSON.parse(storage.browser || '{}');
+    if (!$scope.selected.id) {
+      $scope.selected = $scope.platforms[0].browsers[0];
+    }
     $scope.rotateDevice();
     $scope.$apply();
   });
@@ -276,19 +287,12 @@ console.log(a, b, c);
     $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
   };
 
-
-  $scope.saveRotation = function(){
-    chrome.storage.local.set({'alpha': $scope.alpha, "beta": $scope.beta, "gamma": $scope.gamma}, function() {
-      console.log('saved');
-    });
-  };
-
   $scope.reset = function(){
     $scope.alpha = 0;
     $scope.beta = 90;
     $scope.gamma = 0;
     $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
-    $scope.saveRotation();
+    $scope.saveData();
   };
 
   $scope.stepper = 0.5;
@@ -327,21 +331,21 @@ console.log(a, b, c);
     var next =  $scope.compute(Number($scope.alpha), direction, 0, 360);
     $scope.alpha = next;
     $scope.rotateDevice()
-    $scope.saveRotation();
+    $scope.saveData();
   };
 
   $scope.stepBeta = function(direction){
     var next =  $scope.compute(Number($scope.beta), direction, -180, 180);
     $scope.beta = next;
     $scope.rotateDevice()
-    $scope.saveRotation();
+    $scope.saveData();
   };
 
   $scope.stepGamma = function(direction){
     var next =  $scope.compute(Number($scope.gamma), direction, -180, 180);
     $scope.gamma = next;
     $scope.rotateDevice()
-    $scope.saveRotation();
+    $scope.saveData();
   };
 });
 
