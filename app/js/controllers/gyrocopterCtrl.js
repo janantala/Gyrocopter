@@ -150,7 +150,6 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
   $scope.getAlphaRotation = function(){
     var alpha = $scope.alpha;
-    alpha = 360 - alpha;
     return alpha;
   };
 
@@ -201,10 +200,12 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
     $scope.css = {};
 
-    var a = alpha * alphaMult;
+    var a = - alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
     var c = gammaMult > 0 ? (- gamma - 180) * gammaMult : (- gamma - 180) * gammaMult - 180;
-
+    b=0;
+    c=0;
+console.log(a, b, c);
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
   }
@@ -225,7 +226,6 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     $scope.alpha = Number(storage.alpha) || 0;
     $scope.beta = Number(storage.beta) || 90;
     $scope.gamma = Number(storage.gamma) || 0;
-
     $scope.rotateDevice();
     $scope.$apply();
 
@@ -313,21 +313,21 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   $scope.stepAlpha = function(direction){
     var next =  $scope.compute(Number($scope.alpha), direction, 0, 360);
     $scope.alpha = next;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.rotateDevice()
     $scope.saveRotation();
   };
 
   $scope.stepBeta = function(direction){
     var next =  $scope.compute(Number($scope.beta), direction, -180, 180);
     $scope.beta = next;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.rotateDevice()
     $scope.saveRotation();
   };
 
   $scope.stepGamma = function(direction){
     var next =  $scope.compute(Number($scope.gamma), direction, -180, 180);
     $scope.gamma = next;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.rotateDevice()
     $scope.saveRotation();
   };
 });
