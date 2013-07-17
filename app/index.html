@@ -226,7 +226,7 @@
           alpha: {{getAlphaRotation(alpha)}}
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepAlpha('left')"></i>
-          <input type="range" min="0" max="359.9" step="0.5" ng-model="alpha" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
+          <input type="range" min="0.5" max="360" step="0.5" ng-model="alpha" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepAlpha('right')"></i>
         </p>
           beta: {{getBetaRotation(beta)}}

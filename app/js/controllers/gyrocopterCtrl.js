@@ -150,6 +150,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
   $scope.getAlphaRotation = function(){
     var alpha = $scope.alpha;
+    alpha = 360 - alpha;
     return alpha;
   };
 
