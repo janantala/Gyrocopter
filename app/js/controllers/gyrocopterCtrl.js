@@ -141,10 +141,6 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   };
 
   $scope.setDefaultRotation = function(){
-    $scope.alpha = 0;
-    $scope.beta = 90;
-    $scope.gamma = 0;
-
     $scope.rotateDevice();
   }
 
