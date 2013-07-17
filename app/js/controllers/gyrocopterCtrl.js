@@ -184,6 +184,10 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
       }
     }
 
+    if (gamma < -90 && $scope.selected.rotation.gamma.min > 180) {
+      gamma = $scope.selected.rotation.gamma.min + gamma + 90;
+    }
+
     return gamma;
   };
 
@@ -215,7 +219,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
     var a = - alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
-    var c = gammaMult > 0 ? (- gamma - 180) * gammaMult : (- gamma - 180) * gammaMult - 180;
+    var c = gammaMult > 0 ? - (- gamma - 180) * gammaMult : - (- gamma - 180) * gammaMult - 180;
 
     a = prettyRotate(a);
     b = prettyRotate(b);
