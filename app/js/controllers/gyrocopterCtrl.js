@@ -190,6 +190,18 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
    * Rotation methods
    */
 
+  var prettyRotate = function(val){
+    if (val > 360) {
+      return val - 360;
+    }
+
+    if (val < -360) {
+      return val + 360;
+    }
+
+    return val;
+  };
+
   $scope.rotateDevice = function(){
     var alpha = $scope.alpha;
     var beta = $scope.beta;
@@ -203,8 +215,11 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     var a = - alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
     var c = gammaMult > 0 ? (- gamma - 180) * gammaMult : (- gamma - 180) * gammaMult - 180;
-    b=0;
     c=0;
+
+    a = prettyRotate(a);
+    b = prettyRotate(b);
+    c = prettyRotate(c);
 console.log(a, b, c);
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
@@ -228,8 +243,6 @@ console.log(a, b, c);
     $scope.gamma = Number(storage.gamma) || 0;
     $scope.rotateDevice();
     $scope.$apply();
-
-    // $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
   });
 
   /**
