@@ -170,7 +170,19 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
   };
 
   $scope.getGammaRotation = function(){
-    var gamma = $scope.gamma;
+    var gamma = $scope.gamma - 180;
+
+    var range = Math.abs($scope.selected.rotation.gamma.max - $scope.selected.rotation.gamma.min);
+
+    if (range === 180) {
+      if (gamma > 90) {
+        return (90 - gamma + 90);
+      }
+      if (gamma < -90) {
+        return -1 * (90 + gamma + 90);
+      }
+    }
+
     return gamma;
   };
 
@@ -190,7 +202,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
 
     var a = alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
-    var c = (gamma) * gammaMult;
+    var c = gammaMult > 0 ? (- gamma - 180) * gammaMult : (- gamma - 180) * gammaMult - 180;
 
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
