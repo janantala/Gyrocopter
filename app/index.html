@@ -191,7 +191,7 @@
             <p>Copyright (c) 2013</p>
           </small>
           <p>Jan Antala</p>
-          <p>janantala.com</p>
+          <p><a href="http://janantala.com" target="_blank">janantala.com</a></p>
         </div>
       </section>
     </div>
@@ -238,7 +238,7 @@
           gamma: {{getGammaRotation(gamma)}}
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepGamma('left')"></i>
-          <input type="range" min="0.5" max="360" step="0.5" ng-model="gamma" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
+          <input type="range" min="0" max="359.5" step="0.5" ng-model="gamma" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepGamma('right')"></i>
         </p>
 
