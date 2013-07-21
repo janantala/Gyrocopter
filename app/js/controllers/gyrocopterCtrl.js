@@ -56,10 +56,10 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
     if (range === 180) {
       if (gamma > 90) {
-        return (90 - gamma + 90);
+        return (gamma - 180);
       }
       if (gamma < -90) {
-        return -1 * (90 + gamma + 90);
+        return (gamma + 180);
       }
     }
 
