@@ -202,6 +202,8 @@
           alpha: {{getAlphaRotation(alpha)}}
           <small>
             <span>&lt;{{selected.rotation.alpha.min}}, {{selected.rotation.alpha.max}})</span>
+            <span ng-hide="selected.rotation.alpha.reverse">&#8634;</span>
+            <span ng-show="selected.rotation.alpha.reverse">&#8635;</span>
           </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepAlpha('left')"></i>
@@ -212,6 +214,8 @@
           <small>
             <span ng-show="getRange(selected.rotation.beta.max, selected.rotation.beta.min) > 180">({{selected.rotation.beta.min}}, {{selected.rotation.beta.max}}&gt;</span>
             <span ng-hide="getRange(selected.rotation.beta.max, selected.rotation.beta.min) > 180">&lt;{{selected.rotation.beta.min}}, {{selected.rotation.beta.max}}&gt;</span>
+            <span ng-hide="selected.rotation.beta.reverse">&#8634;</span>
+            <span ng-show="selected.rotation.beta.reverse">&#8635;</span>
           </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepBeta('left')"></i>
@@ -221,6 +225,8 @@
           gamma: {{getGammaRotation(gamma)}}
           <small>
             <span>({{selected.rotation.gamma.min}}, {{selected.rotation.gamma.max}}&gt;</span>
+            <span ng-hide="selected.rotation.gamma.reverse">&#8634;</span>
+            <span ng-show="selected.rotation.gamma.reverse">&#8635;</span>
           </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepGamma('left')"></i>
