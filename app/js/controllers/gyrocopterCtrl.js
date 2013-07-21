@@ -103,10 +103,11 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     a = prettyRotate(a);
     b = prettyRotate(b);
     c = prettyRotate(c);
-console.log(a, b, c);
-console.log($scope.selected);
+
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+
+    sendJS($scope.getAlphaRotation($scope.alpha), $scope.getBetaRotation($scope.beta), $scope.getGammaRotation($scope.gamma));
   }
 
   // $scope.rotate = function(alpha, beta, gamma){
@@ -147,12 +148,12 @@ console.log($scope.selected);
    * @param  {boolean} absolute Indicates absolute values for the three angles or relative to some arbitrary orientation.
    */
 
-  $scope.orientateDevice = function(alpha, beta, gamma, absolute){
+  var sendJS = function(alpha, beta, gamma, absolute){
     console.log(alpha, beta, gamma);
 
     var a = alpha;
     var b = beta;
-    var c = $scope.computeGamma(gamma);
+    var c = gamma;
     absolute = true;
     // var event = document.createEvent("DeviceOrientationEvent");
     // event.initDeviceOrientationEvent("deviceorientation", false, false, alpha, beta, gamma, absolute);
@@ -166,8 +167,6 @@ console.log($scope.selected);
     chrome.tabs.executeScript({
       code: js
     });
-
-    $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
   };
 
   $scope.reset = function(){
@@ -196,18 +195,6 @@ console.log($scope.selected);
     }
 
     return next;
-  };
-
-  $scope.computeGamma = function(gamma){
-    if (gamma > 90) {
-      return Number(gamma) - 180;
-    }
-    else if (gamma < -90) {
-      return Number(gamma) + 180;
-    }
-    else {
-      return Number(gamma);
-    }
   };
 
   $scope.stepAlpha = function(direction){
