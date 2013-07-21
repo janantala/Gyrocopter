@@ -111,8 +111,8 @@ gyrocopter.factory('Browser', function () {
             'reverse': true
           },
           'beta': {
-            'min': 180,
-            'max': -180,
+            'min': -180,
+            'max': 180,
             'zero': 0,
             'reverse': true
           },
