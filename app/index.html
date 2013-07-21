@@ -200,18 +200,28 @@
     <section class="selectors">
       <div>
           alpha: {{getAlphaRotation(alpha)}}
+          <small>
+            <span>&lt;{{selected.rotation.alpha.min}}, {{selected.rotation.alpha.max}})</span>
+          </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepAlpha('left')"></i>
           <input type="range" min="0" max="359.5" step="0.5" ng-model="alpha" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepAlpha('right')"></i>
         </p>
           beta: {{getBetaRotation(beta)}}
+          <small>
+            <span ng-show="getRange(selected.rotation.beta.max, selected.rotation.beta.min) > 180">({{selected.rotation.beta.min}}, {{selected.rotation.beta.max}}&gt;</span>
+            <span ng-hide="getRange(selected.rotation.beta.max, selected.rotation.beta.min) > 180">&lt;{{selected.rotation.beta.min}}, {{selected.rotation.beta.max}}&gt;</span>
+          </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepBeta('left')"></i>
           <input type="range" min="0.5" max="360" step="0.5" ng-model="beta" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepBeta('right')"></i>
         </p>
           gamma: {{getGammaRotation(gamma)}}
+          <small>
+            <span>({{selected.rotation.gamma.min}}, {{selected.rotation.gamma.max}}&gt;</span>
+          </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepGamma('left')"></i>
           <input type="range" min="0" max="359.5" step="0.5" ng-model="gamma" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">

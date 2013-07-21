@@ -24,6 +24,10 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
    * Compute methods
    */
 
+  $scope.getRange = function(max, min){
+    return Math.abs(max - min);
+  };
+
   $scope.getAlphaRotation = function(){
     var alpha = $scope.alpha;
     return alpha;
@@ -31,7 +35,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
   $scope.getBetaRotation = function(){
     var beta = $scope.beta - 180;
-    var range = Math.abs($scope.selected.rotation.beta.max - $scope.selected.rotation.beta.min);
+    var range = $scope.getRange($scope.selected.rotation.beta.max, $scope.selected.rotation.beta.min);
 
     if (range === 180) {
       if (beta > 90) {
@@ -48,7 +52,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   $scope.getGammaRotation = function(){
     var gamma = $scope.gamma - 180;
 
-    var range = Math.abs($scope.selected.rotation.gamma.max - $scope.selected.rotation.gamma.min);
+    var range = $scope.getRange($scope.selected.rotation.gamma.max, $scope.selected.rotation.gamma.min);
 
     if (range === 180) {
       if (gamma > 90) {
@@ -168,9 +172,9 @@ console.log($scope.selected);
 
   $scope.reset = function(){
     $scope.alpha = 0;
-    $scope.beta = 90;
-    $scope.gamma = 0;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.beta = 270;
+    $scope.gamma = 180;
+    $scope.rotateDevice();
     $scope.saveData();
   };
 
