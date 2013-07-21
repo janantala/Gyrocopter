@@ -58,7 +58,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
       if (gamma > 90) {
         return (gamma - 180);
       }
-      if (gamma < -90) {
+      if (gamma <= -90) {
         return (gamma + 180);
       }
     }
@@ -130,8 +130,8 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   chrome.storage.local.get(['alpha', 'beta', 'gamma', 'browser'], function(storage){
     console.log(storage);
     $scope.alpha = Number(storage.alpha) || 0;
-    $scope.beta = Number(storage.beta) || 90;
-    $scope.gamma = Number(storage.gamma) || 0;
+    $scope.beta = Number(storage.beta) || 270;
+    $scope.gamma = Number(storage.gamma) || 180;
     $scope.selected = JSON.parse(storage.browser || '{}');
     if (!$scope.selected.id) {
       $scope.selected = $scope.platforms[0].browsers[0];
@@ -177,18 +177,18 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     $scope.saveData();
   };
 
-  $scope.stepper = 0.5;
+  var STEPPER = 0.5;
 
   $scope.compute = function(next, direction, min, max){
     if (direction === 'left') {
-      next -= $scope.stepper;
+      next -= STEPPER;
     }
     else {
-      next += $scope.stepper;
+      next += STEPPER;
     }
 
     if (next < min) {
-      next = max - $scope.stepper;
+      next = max - STEPPER;
     }
     else if (next >= max) {
       next = min;
@@ -198,21 +198,21 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   };
 
   $scope.stepAlpha = function(direction){
-    var next =  $scope.compute(Number($scope.alpha), direction, 0, 360);
+    var next =  $scope.compute(Number($scope.alpha), direction, 0, 359.5);
     $scope.alpha = next;
     $scope.rotateDevice()
     $scope.saveData();
   };
 
   $scope.stepBeta = function(direction){
-    var next =  $scope.compute(Number($scope.beta), direction, -180, 180);
+    var next =  $scope.compute(Number($scope.beta), direction, 0.5, 360);
     $scope.beta = next;
     $scope.rotateDevice()
     $scope.saveData();
   };
 
   $scope.stepGamma = function(direction){
-    var next =  $scope.compute(Number($scope.gamma), direction, -180, 180);
+    var next =  $scope.compute(Number($scope.gamma), direction, 0, 359.5);
     $scope.gamma = next;
     $scope.rotateDevice()
     $scope.saveData();
