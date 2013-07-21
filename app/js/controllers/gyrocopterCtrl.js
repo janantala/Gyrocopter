@@ -5,29 +5,139 @@
 /**
  * The main controller for the app.
  */
-gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
+gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
-  $scope.rotate = function(alpha, beta, gamma){
+  $scope.platforms = Browser.getPlatforms();
+
+  $scope.selected = $scope.platforms[0].browsers[0];
+  $scope.selectBrowser = function(browser){
+    $scope.selected = browser;
+    $scope.setDefaultRotation();
+    $scope.saveData();
+  };
+
+  $scope.setDefaultRotation = function(){
+    $scope.rotateDevice();
+  }
+
+  /**
+   * Compute methods
+   */
+
+  $scope.getRange = function(max, min){
+    return Math.abs(max - min);
+  };
+
+  $scope.getAlphaRotation = function(){
+    var alpha = $scope.alpha;
+    return alpha;
+  };
+
+  $scope.getBetaRotation = function(){
+    var beta = $scope.beta - 180;
+    var range = $scope.getRange($scope.selected.rotation.beta.max, $scope.selected.rotation.beta.min);
+
+    if (range === 180) {
+      if (beta > 90) {
+        return (90 - beta + 90);
+      }
+      if (beta < -90) {
+        return -1 * (90 + beta + 90);
+      }
+    }
+
+    return beta;
+  };
+
+  $scope.getGammaRotation = function(){
+    var gamma = $scope.gamma - 180;
+
+    var range = $scope.getRange($scope.selected.rotation.gamma.max, $scope.selected.rotation.gamma.min);
+
+    if (range === 180) {
+      if (gamma > 90) {
+        return (gamma - 180);
+      }
+      if (gamma <= -90) {
+        return (gamma + 180);
+      }
+    }
+
+    if (gamma < -90 && $scope.selected.rotation.gamma.min > 180) {
+      gamma = $scope.selected.rotation.gamma.min + gamma + 90;
+    }
+
+    return gamma;
+  };
+
+  /**
+   * Rotation methods
+   */
+
+  var prettyRotate = function(val){
+    if (val > 360) {
+      return val - 360;
+    }
+
+    if (val < -360) {
+      return val + 360;
+    }
+
+    return val;
+  };
+
+  $scope.rotateDevice = function(){
+    var alpha = $scope.alpha;
+    var beta = $scope.beta;
+    var gamma = $scope.gamma;
+    var alphaMult = $scope.selected.rotation.alpha.reverse ? -1 : 1;
+    var betaMult = $scope.selected.rotation.beta.reverse ? -1 : 1;
+    var gammaMult = $scope.selected.rotation.gamma.reverse ? -1 : 1;
+
     $scope.css = {};
 
-    var a = 360 - alpha;
-    var b = - beta + 90;
-    var c = gamma;
+    var a = - alpha * alphaMult;
+    var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
+    var c = gammaMult > 0 ? - (- gamma - 180) * gammaMult : - (- gamma - 180) * gammaMult;
+
+    a = prettyRotate(a);
+    b = prettyRotate(b);
+    c = prettyRotate(c);
 
     $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
     $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+
+    sendJS($scope.getAlphaRotation($scope.alpha), $scope.getBetaRotation($scope.beta), $scope.getGammaRotation($scope.gamma));
+  }
+
+  // $scope.rotate = function(alpha, beta, gamma){
+  //   $scope.css = {};
+
+  //   var a = 360 - alpha;
+  //   var b = - beta + 90;
+  //   var c = gamma;
+
+  //   $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+  //   $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+  // };
+
+  $scope.saveData = function(){
+    chrome.storage.local.set({'alpha': $scope.alpha, 'beta': $scope.beta, 'gamma': $scope.gamma, 'browser': JSON.stringify($scope.selected)}, function() {
+      console.log('saved');
+    });
   };
 
-  chrome.storage.local.get(['alpha', 'beta', 'gamma'], function(storage){
+  chrome.storage.local.get(['alpha', 'beta', 'gamma', 'browser'], function(storage){
     console.log(storage);
     $scope.alpha = Number(storage.alpha) || 0;
-    $scope.beta = Number(storage.beta) || 90;
-    $scope.gamma = Number(storage.gamma) || 0;
-
-    $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
+    $scope.beta = Number(storage.beta) || 270;
+    $scope.gamma = Number(storage.gamma) || 180;
+    $scope.selected = JSON.parse(storage.browser || '{}');
+    if (!$scope.selected.id) {
+      $scope.selected = $scope.platforms[0].browsers[0];
+    }
+    $scope.rotateDevice();
     $scope.$apply();
-
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
   });
 
   /**
@@ -38,12 +148,12 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
    * @param  {boolean} absolute Indicates absolute values for the three angles or relative to some arbitrary orientation.
    */
 
-  $scope.orientateDevice = function(alpha, beta, gamma, absolute){
+  var sendJS = function(alpha, beta, gamma, absolute){
     console.log(alpha, beta, gamma);
 
     var a = alpha;
     var b = beta;
-    var c = $scope.computeGamma(gamma);
+    var c = gamma;
     absolute = true;
     // var event = document.createEvent("DeviceOrientationEvent");
     // event.initDeviceOrientationEvent("deviceorientation", false, false, alpha, beta, gamma, absolute);
@@ -57,37 +167,28 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     chrome.tabs.executeScript({
       code: js
     });
-
-    $scope.rotate($scope.alpha, $scope.beta, $scope.gamma);
-  };
-
-
-  $scope.saveRotation = function(){
-    chrome.storage.local.set({'alpha': $scope.alpha, "beta": $scope.beta, "gamma": $scope.gamma}, function() {
-      console.log('saved');
-    });
   };
 
   $scope.reset = function(){
     $scope.alpha = 0;
-    $scope.beta = 90;
-    $scope.gamma = 0;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
-    $scope.saveRotation();
+    $scope.beta = 270;
+    $scope.gamma = 180;
+    $scope.rotateDevice();
+    $scope.saveData();
   };
 
-  $scope.stepper = 0.5;
+  var STEPPER = 0.5;
 
   $scope.compute = function(next, direction, min, max){
     if (direction === 'left') {
-      next -= $scope.stepper;
+      next -= STEPPER;
     }
     else {
-      next += $scope.stepper;
+      next += STEPPER;
     }
 
     if (next < min) {
-      next = max - $scope.stepper;
+      next = max - STEPPER;
     }
     else if (next >= max) {
       next = min;
@@ -96,37 +197,25 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope) {
     return next;
   };
 
-  $scope.computeGamma = function(gamma){
-    if (gamma > 90) {
-      return Number(gamma) - 180;
-    }
-    else if (gamma < -90) {
-      return Number(gamma) + 180;
-    }
-    else {
-      return Number(gamma);
-    }
-  };
-
   $scope.stepAlpha = function(direction){
-    var next =  $scope.compute(Number($scope.alpha), direction, 0, 360);
+    var next =  $scope.compute(Number($scope.alpha), direction, 0, 359.5);
     $scope.alpha = next;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
-    $scope.saveRotation();
+    $scope.rotateDevice()
+    $scope.saveData();
   };
 
   $scope.stepBeta = function(direction){
-    var next =  $scope.compute(Number($scope.beta), direction, -180, 180);
+    var next =  $scope.compute(Number($scope.beta), direction, 0.5, 360);
     $scope.beta = next;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
-    $scope.saveRotation();
+    $scope.rotateDevice()
+    $scope.saveData();
   };
 
   $scope.stepGamma = function(direction){
-    var next =  $scope.compute(Number($scope.gamma), direction, -180, 180);
+    var next =  $scope.compute(Number($scope.gamma), direction, 0, 359.5);
     $scope.gamma = next;
-    $scope.orientateDevice($scope.alpha, $scope.beta, $scope.gamma);
-    $scope.saveRotation();
+    $scope.rotateDevice()
+    $scope.saveData();
   };
 });
 
