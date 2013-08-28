@@ -12,13 +12,34 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   $scope.selected = $scope.platforms[0].browsers[0];
   $scope.selectBrowser = function(browser){
     $scope.selected = browser;
-    $scope.setDefaultRotation();
+    $scope.updateAxes();
     $scope.saveData();
+  };
+
+  $scope.updateAxes = function(){
+    var rotation = $scope.css.transform.match(/-?(\d+)(\.(\d+))?/g);
+
+    var b = Number(rotation[0]);
+    var c = Number(rotation[1]);
+    var a = Number(rotation[2]);
+
+    var alphaMult = $scope.selected.rotation.alpha.reverse ? -1 : 1;
+    var betaMult = $scope.selected.rotation.beta.reverse ? -1 : 1;
+    var gammaMult = $scope.selected.rotation.gamma.reverse ? -1 : 1;
+
+    $scope.alpha = - (a/alphaMult);
+    $scope.beta = betaMult > 0 ? - (b/betaMult) + 90 - 180 : - ((b - 180)/betaMult) + 90 - 180;
+    $scope.gamma = (c/gammaMult) - 180;
+
+    while ($scope.alpha < 0) { $scope.alpha += 360; }
+    while ($scope.beta < 0) { $scope.beta += 360; }
+    while ($scope.gamma < 0) { $scope.gamma += 360; }
+
   };
 
   $scope.setDefaultRotation = function(){
     $scope.rotateDevice();
-  }
+  };
 
   /**
    * Compute methods
@@ -98,7 +119,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
     var a = - alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
-    var c = gammaMult > 0 ? - (- gamma - 180) * gammaMult : - (- gamma - 180) * gammaMult;
+    var c = - (- gamma - 180) * gammaMult;
 
     a = prettyRotate(a);
     b = prettyRotate(b);
@@ -109,17 +130,6 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
     sendJS($scope.getAlphaRotation($scope.alpha), $scope.getBetaRotation($scope.beta), $scope.getGammaRotation($scope.gamma));
   }
-
-  // $scope.rotate = function(alpha, beta, gamma){
-  //   $scope.css = {};
-
-  //   var a = 360 - alpha;
-  //   var b = - beta + 90;
-  //   var c = gamma;
-
-  //   $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
-  //   $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
-  // };
 
   $scope.saveData = function(){
     chrome.storage.local.set({'alpha': $scope.alpha, 'beta': $scope.beta, 'gamma': $scope.gamma, 'browser': JSON.stringify($scope.selected)}, function() {
