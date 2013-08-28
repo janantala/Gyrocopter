@@ -19,9 +19,6 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   $scope.updateAxes = function(){
     var rotation = $scope.css.transform.match(/-?(\d+)(\.(\d+))?/g);
 
-    console.log($scope.css.transform);
-    console.log(rotation);
-
     var b = Number(rotation[0]);
     var c = Number(rotation[1]);
     var a = Number(rotation[2]);
@@ -30,12 +27,14 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     var betaMult = $scope.selected.rotation.beta.reverse ? -1 : 1;
     var gammaMult = $scope.selected.rotation.gamma.reverse ? -1 : 1;
 
-
-    console.log([$scope.alpha, $scope.beta, $scope.gamma]);
     $scope.alpha = - (a/alphaMult);
     $scope.beta = betaMult > 0 ? - (b/betaMult) + 90 - 180 : - ((b - 180)/betaMult) + 90 - 180;
     $scope.gamma = (c/gammaMult) - 180;
-    console.log([$scope.alpha, $scope.beta, $scope.gamma]);
+
+    while ($scope.alpha < 0) { $scope.alpha += 360; }
+    while ($scope.beta < 0) { $scope.beta += 360; }
+    while ($scope.gamma < 0) { $scope.gamma += 360; }
+
   };
 
   $scope.setDefaultRotation = function(){
