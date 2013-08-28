@@ -1,4 +1,4 @@
-# Gyrocopter v0.2.0
+# Gyrocopter v0.2.1
 
 Gyroscope Simulator - Extension for Chrome Browser
 
