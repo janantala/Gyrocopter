@@ -12,13 +12,18 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   $scope.selected = $scope.platforms[0].browsers[0];
   $scope.selectBrowser = function(browser){
     $scope.selected = browser;
-    $scope.setDefaultRotation();
+    $scope.updateAxes();
     $scope.saveData();
+  };
+
+  $scope.updateAxes = function(){
+    var rotation = $scope.css.transform.match(/-?(\d+)/g);
+    console.log(rotation);
   };
 
   $scope.setDefaultRotation = function(){
     $scope.rotateDevice();
-  }
+  };
 
   /**
    * Compute methods
