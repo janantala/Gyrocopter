@@ -107,6 +107,11 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     return val;
   };
 
+  var performeRotation = function(a,b,c){
+    $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+    $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
+  }
+
   $scope.rotateDevice = function(){
     var alpha = $scope.alpha;
     var beta = $scope.beta;
@@ -117,6 +122,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
     $scope.css = {};
 
+
     var a = - alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
     var c = - (- gamma - 180) * gammaMult;
@@ -125,11 +131,9 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     b = prettyRotate(b);
     c = prettyRotate(c);
 
-    $scope.css['transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
-    $scope.css['-webkit-transform'] = 'rotateX(' + b + 'deg)' + 'rotateY(' + c + 'deg)' + 'rotateZ(' + a + 'deg)';
-
+    performeRotation(a,b,c);
     sendJS($scope.getAlphaRotation($scope.alpha), $scope.getBetaRotation($scope.beta), $scope.getGammaRotation($scope.gamma));
-  }
+  };
 
   $scope.saveData = function(){
     chrome.storage.local.set({'alpha': $scope.alpha, 'beta': $scope.beta, 'gamma': $scope.gamma, 'browser': JSON.stringify($scope.selected)}, function() {
@@ -180,10 +184,9 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   };
 
   $scope.reset = function(){
-    $scope.alpha = 0;
-    $scope.beta = 270;
-    $scope.gamma = 180;
-    $scope.rotateDevice();
+    performeRotation(0,0,0);
+    $scope.updateAxes()
+    sendJS($scope.getAlphaRotation($scope.alpha), $scope.getBetaRotation($scope.beta), $scope.getGammaRotation($scope.gamma));
     $scope.saveData();
   };
 
