@@ -185,7 +185,7 @@
         <div class="back face center">
           <h4>
             Gyrocopter <br>
-            <small>0.2.1</small>
+            <small>0.2.2</small>
           </h4>
           <small>
             <p>The MIT License</p>
@@ -208,7 +208,7 @@
           </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepAlpha('left')"></i>
-          <input type="range" min="0" max="359.5" step="0.5" ng-model="alpha" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
+          <input type="range" min="0" max="359.5" step="0.5" ng-model="alpha" ng-change="rotateDevice()" ng-click="saveData()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepAlpha('right')"></i>
         </p>
           beta: <strong>{{getBetaRotation(beta)}}</strong>
@@ -220,7 +220,7 @@
           </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepBeta('left')"></i>
-          <input type="range" min="0.5" max="360" step="0.5" ng-model="beta" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
+          <input type="range" min="0.5" max="360" step="0.5" ng-model="beta" ng-change="rotateDevice()" ng-click="saveData()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepBeta('right')"></i>
         </p>
           gamma: <strong>{{getGammaRotation(gamma)}}</strong>
@@ -231,7 +231,7 @@
           </small>
         <p>
           <i class="chevron icon-chevron-left" ng-click="stepGamma('left')"></i>
-          <input type="range" min="0" max="359.5" step="0.5" ng-model="gamma" ng-change="rotateDevice()" ng-click="saveRotation()" style="width: 280px;">
+          <input type="range" min="0" max="359.5" step="0.5" ng-model="gamma" ng-change="rotateDevice()" ng-click="saveData()" style="width: 280px;">
           <i class="chevron icon-chevron-right" ng-click="stepGamma('right')"></i>
         </p>
 
