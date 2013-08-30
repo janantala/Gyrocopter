@@ -7,6 +7,7 @@
  */
 gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
+  $scope.css = {};
   $scope.platforms = Browser.getPlatforms();
 
   $scope.selected = $scope.platforms[0].browsers[0];
@@ -120,9 +121,6 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     var betaMult = $scope.selected.rotation.beta.reverse ? -1 : 1;
     var gammaMult = $scope.selected.rotation.gamma.reverse ? -1 : 1;
 
-    $scope.css = {};
-
-
     var a = - alpha * alphaMult;
     var b = betaMult > 0 ? (- beta + 90 - 180) * betaMult : (- beta + 90 - 180) * betaMult - 180;
     var c = - (- gamma - 180) * gammaMult;
@@ -143,12 +141,13 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
   chrome.storage.local.get(['alpha', 'beta', 'gamma', 'browser'], function(storage){
     console.log(storage);
-    $scope.alpha = Number(storage.alpha) || 0;
-    $scope.beta = Number(storage.beta) || 270;
-    $scope.gamma = Number(storage.gamma) || 180;
+    $scope.alpha = Number(storage.alpha);
+    $scope.beta = Number(storage.beta);
+    $scope.gamma = Number(storage.gamma);
     $scope.selected = JSON.parse(storage.browser || '{}');
     if (!$scope.selected.id) {
       $scope.selected = $scope.platforms[0].browsers[0];
+      $scope.updateAxes();
     }
     $scope.rotateDevice();
     $scope.$apply();
