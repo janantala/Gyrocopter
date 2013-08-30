@@ -147,6 +147,9 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     $scope.selected = JSON.parse(storage.browser || '{}');
     if (!$scope.selected.id) {
       $scope.selected = $scope.platforms[0].browsers[0];
+    }
+    if (!$scope.alpha || !$scope.beta || !$scope.gamma) {
+      performeRotation(0,0,0);
       $scope.updateAxes();
     }
     $scope.rotateDevice();
