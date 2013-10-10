@@ -3,7 +3,7 @@
 
   "name": "Gyrocopter",
   "description": "Gyroscope Simulator.",
-  "version": "0.2.2",
+  "version": "0.2.3",
 
   "icons": {
     "16": "images/icon16.png",

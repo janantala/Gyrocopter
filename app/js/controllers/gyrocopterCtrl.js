@@ -1,4 +1,9 @@
-/*global gyrocopter */
+/**
+ * Gyrocopter v0.2.3
+ * The MIT License
+ * Copyright (c) 2013 Jan Antala
+ */
+
 (function () {
 'use strict';
 
@@ -148,7 +153,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     if (!$scope.selected.id) {
       $scope.selected = $scope.platforms[0].browsers[0];
     }
-    if (!$scope.alpha || !$scope.beta || !$scope.gamma) {
+    if ($scope.alpha === undefined && $scope.beta === undefined && $scope.gamma === undefined) {
       performeRotation(0,0,0);
       $scope.updateAxes();
     }
