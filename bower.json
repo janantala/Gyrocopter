@@ -1,6 +1,6 @@
 {
   "name": "gyrocopter",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "This module allows you to scroll an AngularJS app using gyroscope.",
   "author": "Jan Antala",
   "license": "MIT",
