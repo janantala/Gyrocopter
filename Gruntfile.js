@@ -1,6 +1,5 @@
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
+    require('load-grunt-tasks')(grunt);
 
     // Default task.
     grunt.registerTask('default', ['karma', 'jshint']);
@@ -13,6 +12,7 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
+      pkg: grunt.file.readJSON('package.json'),
         karma: {
             unit: {
             options: karmaConfig('test/test.conf.js')
@@ -33,6 +33,11 @@ module.exports = function (grunt) {
                 devel:true,
                 globals:{}
             }
-        }
+        },
+    changelog: {
+      options: {
+        dest: 'CHANGELOG.md'
+      }
+    }
     });
 }

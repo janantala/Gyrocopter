@@ -7,13 +7,15 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-karma": "*",
-    "grunt-contrib-jshint": "~0.2.0"
+    "grunt-karma": "~0.7.1",
+    "grunt-conventional-changelog": "~1.0.0",
+    "grunt-contrib-jshint": "~0.2.0",
+    "load-grunt-tasks": "~0.2.0"
   },
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git://github.com/janantala/Gyrocopter.git"
+    "url": "https://github.com/janantala/Gyrocopter.git"
   },
   "engines": {
     "node": ">=0.8.0"
