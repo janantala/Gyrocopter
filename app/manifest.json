@@ -18,9 +18,13 @@
 
   "devtools_page": "devtools.html",
 
+  "background": {
+    "scripts": "background.js"
+  },
+
   "permissions": [
     "tabs",
     "storage",
     "<all_urls>"
-  ]
+  ],
 }
