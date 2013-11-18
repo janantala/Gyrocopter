@@ -19,12 +19,14 @@
   "devtools_page": "devtools.html",
 
   "background": {
-    "scripts": "background.js"
+    "scripts": ["background.js"],
+    "persistent": false
   },
 
   "permissions": [
+    "activeTab",
     "tabs",
     "storage",
     "<all_urls>"
-  ],
+  ]
 }
