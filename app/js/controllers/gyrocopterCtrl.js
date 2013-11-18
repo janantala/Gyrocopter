@@ -143,27 +143,18 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
   };
 
   $scope.saveData = function(){
-    chrome.storage.local.set({'alpha': $scope.alpha, 'beta': $scope.beta, 'gamma': $scope.gamma, 'browser': JSON.stringify($scope.selected)}, function() {
-      console.log('saved');
-    });
+    // chrome.storage.local.set({'alpha': $scope.alpha, 'beta': $scope.beta, 'gamma': $scope.gamma, 'browser': JSON.stringify($scope.selected)}, function() {
+    //   console.log('saved');
+    // });
   };
 
-  chrome.storage.local.get(['alpha', 'beta', 'gamma', 'browser'], function(storage){
-    console.log(storage);
-    $scope.alpha = Number(storage.alpha);
-    $scope.beta = Number(storage.beta);
-    $scope.gamma = Number(storage.gamma);
-    $scope.selected = JSON.parse(storage.browser || '{}');
-    if (!$scope.selected.id) {
-      $scope.selected = $scope.platforms[0].browsers[0];
-    }
-    if ($scope.alpha === undefined && $scope.beta === undefined && $scope.gamma === undefined) {
-      performeRotation(0,0,0);
-      $scope.updateAxes();
-    }
-    $scope.rotateDevice();
-    $scope.$apply();
-  });
+    $scope.alpha = 0;
+    $scope.beta = 0;
+    $scope.gamma = 0;
+    $scope.selected = $scope.platforms[0].browsers[0];
+    performeRotation(0,0,0);
+    $scope.updateAxes();
+    // $scope.rotateDevice();
 
   /**
    * Dispatches a DeviceOrientation Event

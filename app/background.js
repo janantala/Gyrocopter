@@ -5,7 +5,4 @@ chrome.runtime.onConnect.addListener(function(devToolsConnection) {
 
   devToolsConnection.onMessage.addListener(devToolsListener);
 
-  devToolsConnection.onDisconnect(function() {
-    devToolsConnection.onMessage.removeListener(devToolsListener);
-  });
 });
