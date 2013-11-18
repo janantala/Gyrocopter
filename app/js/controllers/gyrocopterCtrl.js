@@ -12,15 +12,8 @@
  */
 gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
 
-  //Created a port with background page for continous message communication
   var port = chrome.runtime.connect({
-      name: "Sample Communication" //Given a Name
-  });
-  //Posting message to background page
-  port.postMessage("Request Tab Data");
-  //Hanlde response when recieved from background page
-  port.onMessage.addListener(function (msg) {
-      console.log("Tab Data recieved is  " + msg);
+      name: 'Gyrocopter'
   });
 
   $scope.css = {};
@@ -196,11 +189,7 @@ gyrocopter.controller('gyrocopterCtrl', function mainCtrl($scope, Browser) {
     js += 'event.initDeviceOrientationEvent("deviceorientation", false, false, ' + a + ', ' + b + ', ' + c + ', ' + absolute + ');';
     js += 'window.dispatchEvent(event);';
 
-    // chrome.tabs.executeScript({
-    //   code: js
-    // });
-
-    chrome.runtime.sendMessage({
+    port.postMessage({
       tabId: chrome.devtools.inspectedWindow.tabId,
       code: js
     });
