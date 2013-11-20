@@ -1,7 +1,7 @@
 {
   "name": "gyrocopter",
-  "version": "0.2.3",
-  "description": "Gyroscope simulator Extension for Chrome",
+  "version": "0.3.0",
+  "description": "Gyroscope simulator Extension for Chrome Developer Tools",
   "author": "Jan Antala",
   "license": "MIT",
   "dependencies": {},
