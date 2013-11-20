@@ -8,13 +8,17 @@
         box-sizing: border-box;
       }
 
+      html {
+        min-height: 100%;
+      }
+
       body {
         min-width: 357px;
         overflow-x: hidden;
         background-image: -webkit-linear-gradient(top, white 0%, rgb(220, 224, 233) 100%);
         background-image: linear-gradient(top, white 0%, rgb(220, 224, 233) 100%);
         font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
-        margin: 3px;
+        
       }
 
       img.center {
@@ -162,6 +166,8 @@
   </head>
   <body ng-controller="gyrocopterCtrl">
 
+    <h1 class="selectors">Gyrocopter</h1>
+
     <div id="phone_container">
       <section id="phone" class="shadow" ng-style="css">
         <div class="front face">
@@ -185,7 +191,7 @@
         <div class="back face center">
           <h4>
             Gyrocopter <br>
-            <small>0.2.3</small>
+            <small>0.3.0</small>
           </h4>
           <small>
             <p>The MIT License</p>

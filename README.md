@@ -1,6 +1,6 @@
-# Gyrocopter v0.2.3
+# Gyrocopter v0.3.0
 
-Gyroscope Simulator - Extension for Chrome Browser
+Gyroscope Simulator - Extension for Chrome Developer Tools
 
 
 <p align="center">
@@ -44,4 +44,4 @@ You want to dynamically change rotation of a mobile device and also see live pre
 
 The MIT License
 
-Copyright (c) 2013 Jan Antala, https://github.com/janantala
+Copyright (c) 2013 Jan Antala, http://janantala.com
